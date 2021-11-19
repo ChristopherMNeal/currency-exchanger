@@ -28,7 +28,7 @@ _This project was created for Epicodus bootcamp to show proficiency in asynchron
 
 * _To get an API key for ExchangeRate-API, first sign up for an account [here](https://www.exchangerate-api.com/). First, submit your email and follow instructions for creating an account and confirming your email. By confirming your email, you will be redirected to a page with your API key. Copy the API key to use in the next step._
 * _In the terminal from the project directory run `touch .env` to create an environment file._
-* _Open .env in your prefered editor and insert `EXCHANGERATE_API_KEY=` followed by the API key you copied._
+* _Open .env in your prefered editor and insert `API_KEY=` followed by the API key you copied._
 
 * _For ExchangeRate-API documentation, please reference this [overview](https://www.exchangerate-api.com/docs/overview)._
 
