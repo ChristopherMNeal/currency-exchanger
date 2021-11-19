@@ -6,17 +6,21 @@ import ExchangeRateService from './js/exchange-rate-service';
 import CodesService from './js/codes-service';
 import calculateExchange from './js/calculate-exchange';
 
-function getElements(response, amount) {
+function getElements(response) {
+  const amount = sessionStorage.getItem("amount");
   if(response.result === "success") {
-    const rate = response.conversion_rates.baseCurrency;
+    const outputCurrency = sessionStorage.getItem("output");
+    const rate = response.conversion_rates[outputCurrency];
+    const answer = calculateExchange(amount, rate);
+    $("#show-amount").text(answer);
   } else {
-    $(".showErrors").text(`An error occured: ${response}`);
+    $(".show-errors").text(`An error occured: ${response}`);
   }
 }
 
 async function makeApiCall(baseCurrency) {
   const response = await ExchangeRateService.getRate(baseCurrency);
-  // sessionStorage.setItem(response);
+  getElements(response);
 }
 
 async function getMenu() {
@@ -24,7 +28,7 @@ async function getMenu() {
   if (response.result === "success") {
     menuLoop(response);
   } else {
-    $('.showErrors').text(`There was an error: ${response}`);
+    $('.show-errors').text(`There was an error: ${response}`);
   }
 }
 
@@ -50,18 +54,29 @@ getMenu();
 
 $("#base-currency-submit").click(function() {
   let baseCurrency = "";
-  if ($("#common-base-currencies")) {
+  if ($("#common-base-currencies").val()) {
     baseCurrency = $("#common-base-currencies").val();  
-  } else if ($("#all-base-currencies")) {
+  } else if ($("#all-base-currencies").val()) {
     baseCurrency = $("#all-base-currencies").val();
-    console.log(baseCurrency);
   } else {
-    $(".outputForm").text("Please choose a base currency");
+    $("#base-currency-error").text("Please choose a base currency");
   }
-  console.log(baseCurrency);
   $(".base-currency").text(baseCurrency);
-  makeApiCall(baseCurrency);
+  sessionStorage.setItem("base", baseCurrency);
 });
 $("#convert").click(function() {
   let amount = $("#amount-input").val();
+  sessionStorage.setItem("amount", amount);
+  let outputCurrency = "";
+  if ($("#common-output-currencies").val()) {
+    outputCurrency = $("#common-output-currencies").val();  
+  } else if ($("#all-output-currencies").val()) {
+    outputCurrency = $("#all-output-currencies").val();
+  } else {
+    $("#output-currency-error").text("Please choose an output currency");
+  }
+  $(".output-currency").text(outputCurrency);
+  sessionStorage.setItem("output", outputCurrency);
+  let baseCurrency = sessionStorage.getItem("base");
+  makeApiCall(baseCurrency);
 });
