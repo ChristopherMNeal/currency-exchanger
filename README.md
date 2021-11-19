@@ -1,8 +1,8 @@
-# __
+# _Currency Exchanger_
 
 #### Created By _**Christopher Neal**_
 
-#### _An application to_
+#### _An application to convert USD to several other currencies._
 
 ## Technologies Used
 
@@ -17,7 +17,7 @@
 
 ## Description
 
-_This project was created for Epicodus bootcamp to show proficiency in. The application is for . The user can ._
+_This project was created for Epicodus bootcamp to show proficiency in asynchronous code and using an API. The user can convert between currencies._
 
 ## Setup/Installation Requirements
 
@@ -26,11 +26,11 @@ _This project was created for Epicodus bootcamp to show proficiency in. The appl
 * _Run `npm run start` to start the application._
 * _Alternatively, you can run `npm run build` and open dist/index.html in your preferred browser._
 
-* _To get an API key for Open Weather, first sign up for an account [here](https://home.openweathermap.org/users/sign_up). Once you are signed in, click on the API keys tab in your account. Copy the Default key that the API provides._
+* _To get an API key for ExchangeRate-API, first sign up for an account [here](https://www.exchangerate-api.com/). First, submit your email and follow instructions for creating an account and confirming your email. By confirming your email, you will be redirected to a page with your API key. Copy the API key to use in the next step._
 * _In the terminal from the project directory run `touch .env` to create an environment file._
-* _Open .env in your prefered editor and insert `API_KEY=` followed by the API key you copied._
+* _Open .env in your prefered editor and insert `EXCHANGERATE_API_KEY=` followed by the API key you copied._
 
-* _For more options, please reference OpenWeather's [guide](https://openweathermap.org/guide)._
+* _For ExchangeRate-API documentation, please reference this [overview](https://www.exchangerate-api.com/docs/overview)._
 
 * _Or you can click [here](https://christophermneal.github.io/) to visit the page on gh-pages._
 
@@ -45,7 +45,7 @@ _None at this time_
 ## License
 
 _[MIT](https://opensource.org/licenses/MIT)_
-Copyright (c) _2021_ _Christopher Neal_
+Copyright (c) _19 November 2021_ _Christopher Neal_
 
 ## Support and Contact Details
 * _[christopher.m.neal@gmail.com](mailto:christopher.m.neal@gmail.com)_
