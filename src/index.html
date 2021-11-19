@@ -7,7 +7,8 @@
   <div class="container">
     <h1>Get Currency Exchange Rates</h1>
     <div id="base-currency-input">
-      <p>Which currency would you like to convert from?</p>
+      <h3>Which currency would you like to convert from?</h3>
+      <p>(Choose from only one menu.)</p>
       <select id="common-base-currencies">
         <option value="">Common Base Currencies</option>
       </select>
@@ -15,12 +16,9 @@
         <option value="">All Base Currencies</option>
       </select>
       <button id="base-currency-submit" class="btn btn-success">Submit Base Currency</button>
-      <div id="base-currency-error"></div>
     </div>
-    <div id="amount-input-form">
-      <label for="amount-input">How much <span class="base-currency"></span> would you like to convert?</label>
-      <input id="amount-input" type="number" step= 0.01 min="0" max="999999999"><br>
-      <p>Which currency would you like to convert to?</p>
+    <div id="output-currency-form">
+      <h3>Which currency would you like to convert to?</h3>
       <select id="common-output-currencies">
         <option value="">Common Output Currencies</option>
       </select>
@@ -28,15 +26,20 @@
         <option value="">All Output Currencies</option>
       </select>
       <button id="convert" class="btn btn-success">Convert $$$</button>
-      <div id="output-currency-error"></div>
-      <div id="show-amount"></div>
     </div>
-    <div class="output-form">
-      <label for="amount-input">This i <span class="base-currency"></span> would you like to convert?</label>
+    <div id="amount-input-form">
+      <h3>Change the amount in either box to see the conversion.</h3>
+      <p>Then press tab or click outside the box.</p>
+      <label for="amount-input">How much <span class="base-currency"></span> would you like to convert?</label>
       <input id="amount-input" type="number" step= 0.01 min="0" max="999999999"><br>
+      <div id="show-amount"></div>
+      <div class="output-form">
+        <label for="amount-output">This exchanged amount of <span class="output-currency"></span> is:</label>
+        <input id="amount-output" type="number" step= 0.01 min="0" max="999999999"><br>
+      </div>
     </div>
-    <div class="show-errors">
-    </div>
+    <div id="currency-select-error"></div>
+    <div class="show-errors"></div>
   </div>
 </body>
 </html>
