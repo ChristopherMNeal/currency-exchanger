@@ -32,16 +32,20 @@ async function getMenu() {
 function menuSetLoop(response) {
   let menuSet = new Set();
   const mostCommonCurrencies = [["USD","United States Dollar"],["EUR","Euro"],["JPY","Japanese Yen"],["GBP","Pound Sterling"],["AUD","Australian Dollar"],["CAD","Canadian Dollar"],["CHF","Swiss Franc"],["CNY","Chinese Renminbi"],["MXN","Mexican Peso"],["NZD", "New Zealand Dollar"],["SGD", "Singapore Dollar"],["SEK","Swedish Krona"],["KRW","South Korean Won"],["TRY","Turkish Lira"],["INR","Indian Rupee"],["BRL","Brazilian Real"],["ZAR","South African Rand"],["DKK","Danish Krone"],["TWD","New Taiwan Dollar"],["MYR","Malaysian Ringgit"]];
-  for (let i = 0; i < mostCommonCurrencies.length; i++) {
-    let currencyName = (mostCommonCurrencies[i][1]);
-    let key = (mostCommonCurrencies[i][0]);
-    menuSet.add([key, `${currencyName} (${key})`]);
-  }
-  for (let i = 0; i < response.length; i++) {
+  for (let i = 0; i < response.supported_codes.length; i++) {
     let currencyName = (response.supported_codes[i][1]);
     let key = (response.supported_codes[i][0]);
+    mostCommonCurrencies.push([key, currencyName]);
+  }
+  // console.log(mostCommonCurrencies);
+  for (let i = 0; i < mostCommonCurrencies.length; i++) {
+    // console.log(i);
+    let currencyName = (mostCommonCurrencies[i][1]);
+    let key = (mostCommonCurrencies[i][0]);
+    // console.log(`working: ${currencyName} (${key})`);
     menuSet.add([key, `${currencyName} (${key})`]);
   }
+  console.log(menuSet);
   return menuSet;
 }
 
