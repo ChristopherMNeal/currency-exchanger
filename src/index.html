@@ -4,6 +4,29 @@
   <title>Currency Exchanger</title>
 </head>
 <body>
-  <h1></h1>
+  <div class="container">
+    <h1>Get Currency Exchange Rates</h1>
+    <div id="base-currency-input">
+      <label for="base-currencies">Which currency would you like to convert from?</label>
+      <select name="base-currencies" id="base-currencies">
+        <option value="undefined">Please Select a Base Currency</option>
+      </select>
+      <button id="base-currency-submit" class="btn btn-success">Submit Base Currency</button>
+    </div>
+    <div id="amount-input-form">
+      <label for="amount-input">How much <span id="base-currency"></span> would you like to convert?</label>
+      <input id="amount-input" type="number" step= 0.01 min="0" max="999999999"><br>
+      <label for="currencies">Which currency would you like to convert to?</label>
+      <select name="output-currencies" id="output-currencies">
+        <option value="undefined">Please Select an Output Currency</option>
+      </select>
+    </div>
+    <div class="showRate">
+    </div>
+    <div class="showErrors">
+    </div>
+    <button id="getRate" class="btn btn-success">Convert $$$</button>
+  </div>
+  <div class="showErrors"></div>
 </body>
 </html>
