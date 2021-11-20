@@ -13,3 +13,7 @@ select {
 #amount-input-form {
   display: none;
 }
+
+#reset {
+  display: none;
+}

@@ -80,6 +80,7 @@ $("#base-currency-submit").click(function() {
   sessionStorage.setItem("base", baseCurrency);
   $("#currency-select-error").text("");
   $("#output-currency-form").slideDown();
+  $("#reset").slideDown();
   $("#base-currency-input").slideUp();
 });
 
@@ -115,4 +116,8 @@ $("#amount-output").change(function() {
   let amount = $("#amount-output").val();
   sessionStorage.setItem("amountOut", amount);
   makeReverseCalculation();
+});
+
+$("#reset").click(function() {
+  location.reload();
 });
