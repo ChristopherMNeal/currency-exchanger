@@ -10,6 +10,7 @@ function getElements(response) {
     const outputCurrency = sessionStorage.getItem("output");
     const rate = response.conversion_rates[outputCurrency];
     sessionStorage.setItem("rate", rate);
+    $("#show-rate").text(rate);
   } else {
     $(".show-errors").text(`An error occured: ${response}`);
   }
