@@ -1,3 +1,15 @@
 body {
   background-color: lightgreen;
 }
+
+select {
+  font-size: 1.2em;
+}
+
+#output-currency-form {
+  display: none;
+}
+
+#amount-input-form {
+  display: none;
+}
