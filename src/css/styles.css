@@ -17,3 +17,8 @@ select {
 #reset {
   display: none;
 }
+
+.show-errors {
+  font-size: 1.5em;
+  font-style: italic;
+}
