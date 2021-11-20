@@ -2,7 +2,7 @@
 
 #### Created By _**Christopher Neal**_
 
-#### _An application to convert USD to several other currencies._
+#### _An application to convert between many currencies._
 
 ## Technologies Used
 
@@ -17,7 +17,7 @@
 
 ## Description
 
-_This project was created for Epicodus bootcamp to show proficiency in asynchronous code and using an API. The user can convert between currencies._
+_This project was created for Epicodus bootcamp to show proficiency in asynchronous code and using an API. The user can convert between any two currencies that ExchangeRate-API.com supports._
 
 ## Setup/Installation Requirements
 
@@ -32,15 +32,16 @@ _This project was created for Epicodus bootcamp to show proficiency in asynchron
 
 * _For ExchangeRate-API documentation, please reference this [overview](https://www.exchangerate-api.com/docs/overview)._
 
-* _Or you can click [here](https://christophermneal.github.io/) to visit the page on gh-pages._
-
 ## Known Bugs
 
 _None at this time_
 
 ## Future Updates
 
-* __
+* _Refactor to generally make code more DRY._
+* _Make error code work better and be more informative._
+* _List all available currencies in one menu (instead of two), with most popular at the top._
+* _Add CSS styling to improve the page layout and aesthetics._
 
 ## License
 

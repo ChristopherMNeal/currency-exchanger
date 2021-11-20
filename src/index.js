@@ -97,6 +97,8 @@ $("#convert").click(function() {
     outputCurrency = $("#common-output-currencies").val();  
   } else if ($("#all-output-currencies").val()) {
     outputCurrency = $("#all-output-currencies").val();
+  } else if (!(sessionStorage[$("#common-base-currencies").val()])) {
+    $(".show-errors").text(`An error occured: the currency code you have entered is not supported.`);
   } else {
     $("#currency-select-error").text("Please choose an output currency.");
     return false;
