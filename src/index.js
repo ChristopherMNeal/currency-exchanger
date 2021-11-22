@@ -6,7 +6,7 @@ import ExchangeRateService from './js/exchange-rate-service';
 import CodesService from './js/codes-service';
 import makeCalculation from './js/calculate-exhange.js';
 
-function getElements(response) {
+function getRate(response) {
   if(response["result"] === "success") {
     const outputCurrency = sessionStorage.getItem("output");
     const rate = response.conversion_rates[outputCurrency];
@@ -19,7 +19,7 @@ function getElements(response) {
 
 async function makeApiCall(baseCurrency) {
   const response = await ExchangeRateService.getRate(baseCurrency);
-  getElements(response);
+  getRate(response);
 }
 
 async function getMenu() {
@@ -52,24 +52,27 @@ function menuLoop(response) {
 
 getMenu();
 
-$("#base-currency-submit").click(function() {
-  let baseCurrency = "";
-  const commonCurrencies = $("#common-base-currencies").val();
-  const allCurrencies = $("#all-base-currencies").val();
+function currencyChecker(commonCurrencies, allCurrencies) {
   if (commonCurrencies && allCurrencies) {
     $("#currency-select-error").text("Please choose from only one menu.");
     return false;
-  } else if (!(sessionStorage[$("#common-base-currencies").val()]) && !allCurrencies) {
+  } else if (!(sessionStorage[commonCurrencies]) && !allCurrencies) {
     $("#currency-select-error").text(`An error occured: the currency code you have entered is not supported.`);
     return false;
   } else if (commonCurrencies) {
-    baseCurrency = commonCurrencies;  
+    return commonCurrencies;
   } else if (allCurrencies) {
-    baseCurrency = allCurrencies;
+    return allCurrencies;
   } else {
     $("#currency-select-error").text("Please choose a base currency.");
     return false;
   }
+}
+
+$("#base-currency-submit").click(function() {
+  const commonCurrencies = $("#common-base-currencies").val();
+  const allCurrencies = $("#all-base-currencies").val();
+  const baseCurrency = currencyChecker(commonCurrencies, allCurrencies);
   $(".base-currency").text(baseCurrency);
   sessionStorage.setItem("base", baseCurrency);
   $("#currency-select-error").text("");
@@ -79,23 +82,9 @@ $("#base-currency-submit").click(function() {
 });
 
 $("#convert").click(function() {
-  let outputCurrency = "";
   const commonCurrencies = $("#common-output-currencies").val();
   const allCurrencies = $("#all-output-currencies").val();
-  if (commonCurrencies && allCurrencies) {
-    $("#currency-select-error").text("Please choose from only one menu.");
-    return false;
-  } else if (!(sessionStorage[$("#common-output-currencies").val()]) && !allCurrencies) {
-    $("#currency-select-error").text(`An error occured: the currency code you have entered is not supported.`);
-    return false;
-  } else if (commonCurrencies) {
-    outputCurrency = commonCurrencies;  
-  } else if (allCurrencies) {
-    outputCurrency = allCurrencies;  
-  } else {
-    $("#currency-select-error").text("Please choose an output currency.");
-    return false;
-  }
+  const outputCurrency = currencyChecker(commonCurrencies, allCurrencies);
   $(".output-currency").text(outputCurrency);
   sessionStorage.setItem("output", outputCurrency);
   let baseCurrency = sessionStorage.getItem("base");
