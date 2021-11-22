@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 import ExchangeRateService from './js/exchange-rate-service';
 import CodesService from './js/codes-service';
-import { makeCalculation, makeReverseCalculation } from './js/calculate-exhange.js';
+import makeCalculation from './js/calculate-exhange.js';
 
 function getElements(response) {
   if(response["result"] === "success") {
@@ -108,14 +108,14 @@ $("#convert").click(function() {
 $("#amount-input").change(function() {
   let amount = $("#amount-input").val();
   const rate = sessionStorage.getItem("rate");
-  const answer = makeCalculation(amount, rate);
+  const answer = makeCalculation(amount, rate, false);
   $("#amount-output").val(answer);
 });
 
 $("#amount-output").change(function() {
   let amount = $("#amount-output").val();
   const rate = sessionStorage.getItem("rate");
-  const answer = makeReverseCalculation(amount, rate);
+  const answer = makeCalculation(amount, rate, true);
   $("#amount-input").val(answer);
 });
 
