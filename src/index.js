@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 import ExchangeRateService from './js/exchange-rate-service';
 import CodesService from './js/codes-service';
+import { makeCalculation, makeReverseCalculation } from './js/calculate-exhange.js';
 
 function getElements(response) {
   if(response["result"] === "success") {
@@ -14,20 +15,6 @@ function getElements(response) {
   } else {
     $(".show-errors").text(`An error occured: ${response}`);
   }
-}
-
-function makeCalculation() {
-  const amount = sessionStorage.getItem("amountIn");
-  const rate = sessionStorage.getItem("rate");
-  const answer = parseFloat((rate*amount).toFixed(2));
-  $("#amount-output").val(answer);
-}
-
-function makeReverseCalculation() {
-  const amount = sessionStorage.getItem("amountOut");
-  const rate = sessionStorage.getItem("rate");
-  const answer = parseFloat((amount/rate).toFixed(2));
-  $("#amount-input").val(answer);
 }
 
 async function makeApiCall(baseCurrency) {
@@ -67,16 +54,18 @@ getMenu();
 
 $("#base-currency-submit").click(function() {
   let baseCurrency = "";
-  if ($("#common-base-currencies").val() && $("#all-base-currencies").val()) {
+  const commonCurrencies = $("#common-base-currencies").val();
+  const allCurrencies = $("#all-base-currencies").val();
+  if (commonCurrencies && allCurrencies) {
     $("#currency-select-error").text("Please choose from only one menu.");
     return false;
-  } else if (!(sessionStorage[$("#common-base-currencies").val()])) {
+  } else if (!(sessionStorage[$("#common-base-currencies").val()]) && !allCurrencies) {
     $("#currency-select-error").text(`An error occured: the currency code you have entered is not supported.`);
     return false;
-  } else if ($("#common-base-currencies").val()) {
-    baseCurrency = $("#common-base-currencies").val();  
-  } else if ($("#all-base-currencies").val()) {
-    baseCurrency = $("#all-base-currencies").val();
+  } else if (commonCurrencies) {
+    baseCurrency = commonCurrencies;  
+  } else if (allCurrencies) {
+    baseCurrency = allCurrencies;
   } else {
     $("#currency-select-error").text("Please choose a base currency.");
     return false;
@@ -91,16 +80,18 @@ $("#base-currency-submit").click(function() {
 
 $("#convert").click(function() {
   let outputCurrency = "";
-  if ($("#common-output-currencies").val() && $("#all-output-currencies").val()) {
+  const commonCurrencies = $("#common-output-currencies").val();
+  const allCurrencies = $("#all-output-currencies").val();
+  if (commonCurrencies && allCurrencies) {
     $("#currency-select-error").text("Please choose from only one menu.");
     return false;
-  } else if (!(sessionStorage[$("#common-output-currencies").val()])) {
+  } else if (!(sessionStorage[$("#common-output-currencies").val()]) && !allCurrencies) {
     $("#currency-select-error").text(`An error occured: the currency code you have entered is not supported.`);
     return false;
-  } else if ($("#common-output-currencies").val()) {
-    outputCurrency = $("#common-output-currencies").val();  
-  } else if ($("#all-output-currencies").val()) {
-    outputCurrency = $("#all-output-currencies").val();  
+  } else if (commonCurrencies) {
+    outputCurrency = commonCurrencies;  
+  } else if (allCurrencies) {
+    outputCurrency = allCurrencies;  
   } else {
     $("#currency-select-error").text("Please choose an output currency.");
     return false;
@@ -116,14 +107,16 @@ $("#convert").click(function() {
 
 $("#amount-input").change(function() {
   let amount = $("#amount-input").val();
-  sessionStorage.setItem("amountIn", amount);
-  makeCalculation();
+  const rate = sessionStorage.getItem("rate");
+  const answer = makeCalculation(amount, rate);
+  $("#amount-output").val(answer);
 });
 
 $("#amount-output").change(function() {
   let amount = $("#amount-output").val();
-  sessionStorage.setItem("amountOut", amount);
-  makeReverseCalculation();
+  const rate = sessionStorage.getItem("rate");
+  const answer = makeReverseCalculation(amount, rate);
+  $("#amount-input").val(answer);
 });
 
 $("#reset").click(function() {
