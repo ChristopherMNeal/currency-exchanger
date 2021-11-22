@@ -54,6 +54,9 @@ function currencyChecker(commonCurrencies, allCurrencies) {
   if (commonCurrencies && allCurrencies) {
     $("#currency-select-error").text("Please choose from only one menu.");
     return false;
+  } else if (!commonCurrencies && !allCurrencies) {
+    $("#currency-select-error").text("Please choose a base currency.");
+    return false;
   } else if (!(sessionStorage[commonCurrencies]) && !allCurrencies) {
     $("#currency-select-error").text(`An error occured: the currency code you have entered is not supported.`);
     return false;
@@ -61,9 +64,6 @@ function currencyChecker(commonCurrencies, allCurrencies) {
     return commonCurrencies;
   } else if (allCurrencies) {
     return allCurrencies;
-  } else {
-    $("#currency-select-error").text("Please choose a base currency.");
-    return false;
   }
 }
 
@@ -71,6 +71,9 @@ $("#base-currency-submit").click(function() {
   const commonCurrencies = $("#common-base-currencies").val();
   const allCurrencies = $("#all-base-currencies").val();
   const baseCurrency = currencyChecker(commonCurrencies, allCurrencies);
+  if (baseCurrency === false) {
+    return false;
+  }
   $(".base-currency").text(baseCurrency);
   sessionStorage.setItem("base", baseCurrency);
   $("#currency-select-error").text("");
@@ -83,6 +86,9 @@ $("#convert").click(function() {
   const commonCurrencies = $("#common-output-currencies").val();
   const allCurrencies = $("#all-output-currencies").val();
   const outputCurrency = currencyChecker(commonCurrencies, allCurrencies);
+  if (outputCurrency === false) {
+    return false;
+  }
   $(".output-currency").text(outputCurrency);
   sessionStorage.setItem("output", outputCurrency);
   let baseCurrency = sessionStorage.getItem("base");
