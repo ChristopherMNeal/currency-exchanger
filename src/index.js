@@ -6,8 +6,9 @@ import ExchangeRateService from './js/exchange-rate-service';
 import CodesService from './js/codes-service';
 import makeCalculation from './js/calculate-exhange.js';
 
-function getRate(response) {
+function getRates(response) {
   if(response["result"] === "success") {
+    // here i could use the code getter to loop through and add all the rates
     const outputCurrency = sessionStorage.getItem("output");
     const rate = response.conversion_rates[outputCurrency];
     sessionStorage.setItem("rate", rate);
@@ -19,7 +20,8 @@ function getRate(response) {
 
 async function makeApiCall(baseCurrency) {
   const response = await ExchangeRateService.getRate(baseCurrency);
-  getRate(response);
+  // get rate needs to move to convert function and response needs to be saved somehow
+  getRates(response);
 }
 
 async function getMenu() {
@@ -38,14 +40,17 @@ function menuFillLoop(menuInfo, scope) {
     let menuItem = `<option value="${key}">${currencyName} (${key})</option>`;
     $("#" + scope+ "-base-currencies").append(menuItem);
     $("#" + scope+ "-output-currencies").append(menuItem);
+    // sessionStorage.setItem(menuInfo[i][0], menuInfo[i][1]);
   }
 }
 
 function menuLoop(response) {
-  const mostCommonCurrencies = [["USD","United States Dollar"],["EUR","EUR"],["JPY","Japanese Yen"],["GBP","Pound Sterling"],["AUD","Australian Dollar"],["CAD","Canadian Dollar"],["CHF","Swiss Franc"],["CNY","Chinese Renminbi"],["MXN","Mexican Peso"],["NZD", "New Zealand Dollar"],["SGD", "Singapore Dollar"],["SEK","Swedish Krona"],["KRW","South Korean Won"],["TRY","Turkish Lira"],["INR","Indian Rupee"],["BRL","Brazilian Real"],["ZAR","South African Rand"],["DKK","Danish Krone"],["TWD","New Taiwan Dollar"],["MYR","Malaysian Ringgit"],["XYZ", "FakeCoin"]];
+  const mostCommonCurrencies = [["USD","United States Dollar"],["EUR","Euro"],["JPY","Japanese Yen"],["GBP","Pound Sterling"],["AUD","Australian Dollar"],["CAD","Canadian Dollar"],["CHF","Swiss Franc"],["CNY","Chinese Renminbi"],["MXN","Mexican Peso"],["NZD", "New Zealand Dollar"],["SGD", "Singapore Dollar"],["SEK","Swedish Krona"],["KRW","South Korean Won"],["TRY","Turkish Lira"],["INR","Indian Rupee"],["BRL","Brazilian Real"],["ZAR","South African Rand"],["DKK","Danish Krone"],["TWD","New Taiwan Dollar"],["MYR","Malaysian Ringgit"],["XYZ", "FakeCoin"]];
   const allCurrencies = response.supported_codes;
   menuFillLoop(mostCommonCurrencies, "common");
   menuFillLoop(allCurrencies, "all");
+  // this doesn't work because it add fakecoin to the list of coins to check against
+  // menuFillLoop([["XYZ", "FakeCoin"]], "all");
 }
 
 getMenu();
@@ -57,9 +62,9 @@ function currencyChecker(commonCurrencies, allCurrencies) {
   } else if (!commonCurrencies && !allCurrencies) {
     $("#currency-select-error").text("Please choose a base currency.");
     return false;
-  } else if (!(sessionStorage[commonCurrencies]) && !allCurrencies) {
-    $("#currency-select-error").text(`An error occured: the currency code you have entered is not supported.`);
-    return false;
+  // } else if (!(sessionStorage[commonCurrencies]) || !(sessionStorage[allCurrencies]) {
+  //   $("#currency-select-error").text(`An error occured: the currency code you have entered is not supported.`);
+  //   return false;
   } else if (commonCurrencies) {
     return commonCurrencies;
   } else if (allCurrencies) {
@@ -76,6 +81,7 @@ $("#base-currency-submit").click(function() {
   }
   $(".base-currency").text(baseCurrency);
   sessionStorage.setItem("base", baseCurrency);
+  makeApiCall(baseCurrency);
   $("#currency-select-error").text("");
   $("#output-currency-form").slideDown();
   $("#reset").slideDown();
@@ -91,11 +97,8 @@ $("#convert").click(function() {
   }
   $(".output-currency").text(outputCurrency);
   sessionStorage.setItem("output", outputCurrency);
-  let baseCurrency = sessionStorage.getItem("base");
-  makeApiCall(baseCurrency);
   $("#currency-select-error").text("");
   $("#amount-input-form").slideDown();
-  $("#output-currency-form").slideUp();
 });
 
 $("#amount-input").change(function() {
