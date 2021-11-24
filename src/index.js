@@ -8,11 +8,16 @@ import makeCalculation from './js/calculate-exhange.js';
 
 function getRates(response) {
   if(response["result"] === "success") {
-    // here i could use the code getter to loop through and add all the rates
-    const outputCurrency = sessionStorage.getItem("output");
-    const rate = response.conversion_rates[outputCurrency];
-    sessionStorage.setItem("rate", rate);
-    $("#show-rate").text(rate);
+    // this saves all the rates in session storage
+    // need to retrieve rates from session storage instad of setting one output rate
+    for (const element in response.conversion_rates){ 
+      // console.log(element + ", " + response.conversion_rates[element]);
+      sessionStorage.setItem(element, response.conversion_rates[element]);
+    }
+
+    // const outputCurrency = sessionStorage.getItem("output");
+    // const rate = response.conversion_rates[outputCurrency];
+    // sessionStorage.setItem("rate", rate);
   } else {
     $(".show-errors").text(`An error occured: ${response}`);
   }
@@ -40,7 +45,7 @@ function menuFillLoop(menuInfo, scope) {
     let menuItem = `<option value="${key}">${currencyName} (${key})</option>`;
     $("#" + scope+ "-base-currencies").append(menuItem);
     $("#" + scope+ "-output-currencies").append(menuItem);
-    // sessionStorage.setItem(menuInfo[i][0], menuInfo[i][1]);
+    sessionStorage.setItem(menuInfo[i][0], -1);
   }
 }
 
@@ -49,8 +54,8 @@ function menuLoop(response) {
   const allCurrencies = response.supported_codes;
   menuFillLoop(mostCommonCurrencies, "common");
   menuFillLoop(allCurrencies, "all");
-  // this doesn't work because it add fakecoin to the list of coins to check against
-  // menuFillLoop([["XYZ", "FakeCoin"]], "all");
+  // this doesn't work because it add fakecoin to the list of coins to check against??
+  menuFillLoop([["XYZ", "FakeCoin"]], "all");
 }
 
 getMenu();
@@ -62,9 +67,6 @@ function currencyChecker(commonCurrencies, allCurrencies) {
   } else if (!commonCurrencies && !allCurrencies) {
     $("#currency-select-error").text("Please choose a base currency.");
     return false;
-  // } else if (!(sessionStorage[commonCurrencies]) || !(sessionStorage[allCurrencies]) {
-  //   $("#currency-select-error").text(`An error occured: the currency code you have entered is not supported.`);
-  //   return false;
   } else if (commonCurrencies) {
     return commonCurrencies;
   } else if (allCurrencies) {
@@ -94,23 +96,31 @@ $("#convert").click(function() {
   const outputCurrency = currencyChecker(commonCurrencies, allCurrencies);
   if (outputCurrency === false) {
     return false;
+  } else if (sessionStorage[outputCurrency] === "-1") {
+    $("#currency-select-error").text(`An error occured: the currency code you have entered is not supported.`);
+    return false;
   }
   $(".output-currency").text(outputCurrency);
+  const rate = sessionStorage[outputCurrency];
+  $("#show-rate").text(rate);
   sessionStorage.setItem("output", outputCurrency);
+  sessionStorage.setItem("outputRate", rate);
   $("#currency-select-error").text("");
   $("#amount-input-form").slideDown();
+  $("#amount-output").val("0");
+  $("#amount-input").val("0");
 });
 
 $("#amount-input").change(function() {
   let amount = $("#amount-input").val();
-  const rate = sessionStorage.getItem("rate");
+  const rate = sessionStorage.getItem("outputRate");
   const answer = makeCalculation(amount, rate, false);
   $("#amount-output").val(answer);
 });
 
 $("#amount-output").change(function() {
   let amount = $("#amount-output").val();
-  const rate = sessionStorage.getItem("rate");
+  const rate = sessionStorage.getItem("outputRate");
   const answer = makeCalculation(amount, rate, true);
   $("#amount-input").val(answer);
 });
