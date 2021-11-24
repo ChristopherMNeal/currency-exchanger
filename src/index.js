@@ -8,16 +8,9 @@ import makeCalculation from './js/calculate-exhange.js';
 
 function getRates(response) {
   if(response["result"] === "success") {
-    // this saves all the rates in session storage
-    // need to retrieve rates from session storage instad of setting one output rate
     for (const element in response.conversion_rates){ 
-      // console.log(element + ", " + response.conversion_rates[element]);
       sessionStorage.setItem(element, response.conversion_rates[element]);
     }
-
-    // const outputCurrency = sessionStorage.getItem("output");
-    // const rate = response.conversion_rates[outputCurrency];
-    // sessionStorage.setItem("rate", rate);
   } else {
     $(".show-errors").text(`An error occured: ${response}`);
   }
@@ -25,7 +18,6 @@ function getRates(response) {
 
 async function makeApiCall(baseCurrency) {
   const response = await ExchangeRateService.getRate(baseCurrency);
-  // get rate needs to move to convert function and response needs to be saved somehow
   getRates(response);
 }
 
@@ -54,7 +46,6 @@ function menuLoop(response) {
   const allCurrencies = response.supported_codes;
   menuFillLoop(mostCommonCurrencies, "common");
   menuFillLoop(allCurrencies, "all");
-  // this doesn't work because it add fakecoin to the list of coins to check against??
   menuFillLoop([["XYZ", "FakeCoin"]], "all");
 }
 
