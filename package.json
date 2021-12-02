@@ -1,5 +1,5 @@
 {
-  "name": "Currency Exchanger",
+  "name": "currency-exchanger",
   "version": "1.0.0",
   "description": "An app to exchange currencies.",
   "main": "index.js",
