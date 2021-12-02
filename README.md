@@ -21,7 +21,7 @@ _This project was created for Epicodus bootcamp to show proficiency in asynchron
 
 ## Setup/Installation Requirements
 
-* _Clone the GitHub [repository](https://github.com/christophermneal/) or download and open the Zip on your local machine.
+* _Clone the GitHub [repository](https://github.com/christophermneal/currency-exchanger/) or download and open the Zip on your local machine._
 * _From the project directory, run `npm install` in the terminal to load necessary plugins and packages._
 * _Run `npm run start` to start the application._
 * _Alternatively, you can run `npm run build` and open dist/index.html in your preferred browser._
