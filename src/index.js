@@ -5,13 +5,18 @@ import './css/styles.css';
 import ExchangeRateService from './js/exchange-rate-service';
 import CodesService from './js/codes-service';
 import makeCalculation from './js/calculate-exhange.js';
+import menuLoop from './js/menu-logic.js';
 
+
+// Error handling should be here instead of in exchange rate service
+// using `if (response instanceof Error)`
+// https://www.learnhowtoprogram.com/intermediate-javascript/asynchrony-and-apis/further-exploration-chaining-promises#:~:text=then()%20with%20it.-,Error%20Handling,-Next%2C%20we%27ve%20added
 function getRates(response) {
   if(response["result"] === "success") {
     for (const element in response.conversion_rates){ 
       sessionStorage.setItem(element, response.conversion_rates[element]);
     }
-  } else {
+  } else { 
     $(".show-errors").text(`An error occured: ${response}`);
   }
 }
@@ -21,16 +26,7 @@ async function makeApiCall(baseCurrency) {
   getRates(response);
 }
 
-async function getMenu() {
-  const response = await CodesService.getCodes();
-  if (response.result === "success") {
-    menuLoop(response);
-  } else {
-    $('.show-errors').text(`There was an error: ${response}`);
-  }
-}
-
-function menuFillLoop(menuInfo, scope) {
+export function menuFillLoop(menuInfo, scope) {
   for (let i = 0; i < menuInfo.length; i++) {
     let currencyName = (menuInfo[i][1]);
     let key = (menuInfo[i][0]);
@@ -41,14 +37,14 @@ function menuFillLoop(menuInfo, scope) {
   }
 }
 
-function menuLoop(response) {
-  const mostCommonCurrencies = [["USD","United States Dollar"],["EUR","Euro"],["JPY","Japanese Yen"],["GBP","Pound Sterling"],["AUD","Australian Dollar"],["CAD","Canadian Dollar"],["CHF","Swiss Franc"],["CNY","Chinese Renminbi"],["MXN","Mexican Peso"],["NZD", "New Zealand Dollar"],["SGD", "Singapore Dollar"],["SEK","Swedish Krona"],["KRW","South Korean Won"],["TRY","Turkish Lira"],["INR","Indian Rupee"],["BRL","Brazilian Real"],["ZAR","South African Rand"],["DKK","Danish Krone"],["TWD","New Taiwan Dollar"],["MYR","Malaysian Ringgit"],["XYZ", "FakeCoin"]];
-  const allCurrencies = response.supported_codes;
-  menuFillLoop(mostCommonCurrencies, "common");
-  menuFillLoop(allCurrencies, "all");
-  menuFillLoop([["XYZ", "FakeCoin"]], "all");
+async function getMenu() {
+  const response = await CodesService.getCodes();
+  if (response.result === "success") {
+    menuLoop(response);
+  } else {
+    $('.show-errors').text(`There was an error: ${response}`);
+  }
 }
-
 getMenu();
 
 function currencyChecker(commonCurrencies, allCurrencies) {
