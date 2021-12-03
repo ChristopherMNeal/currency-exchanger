@@ -8,35 +8,39 @@
     <h1>Get Currency Exchange Rates</h1>
     <div id="base-currency-input">
       <h3>Which currency would you like to convert from?</h3>
-      <p>(Choose from only one menu.)</p>
-      <select id="common-base-currencies">
+      <select id="common-base-currencies" class="common">
         <option value="">Common Base Currencies</option>
       </select>
-      <select id="all-base-currencies">
+      <select id="all-base-currencies" class="all">
         <option value="">All Base Currencies</option>
       </select>
       <button id="base-currency-submit" class="btn btn-success">Submit Base Currency</button>
+      <button class="btn btn-success display-all">Choose from all available currencies</button>
+      <button class="btn btn-success display-common">Choose from top 20 currencies</button>
     </div>
     <div id="output-currency-form">
       <h3>Which currency would you like to convert <span class="base-currency"></span> to?</h3>
-      <select id="common-output-currencies">
+      <select id="common-output-currencies" class="common">
         <option value="">Common Output Currencies</option>
       </select>
-      <select id="all-output-currencies">
+      <select id="all-output-currencies" class="all">
         <option value="">All Output Currencies</option>
       </select>
       <button id="convert" class="btn btn-success">Submit Output Currency</button>
+      <button class="btn btn-success display-all">Choose from all available currencies</button>
+      <button class="btn btn-success display-common">Choose from top 20 currencies</button>
     </div>
     <div id="amount-input-form">
       <h3>Change the amount in either box to see the conversion from <span class="base-currency"></span> to <span class="output-currency"></span>.</h3>
       <p>Then press tab or click outside the box. You can change the output currency from the menu above and submit it by clicking the button.</p>
       <p>The current exhange rate is <span id="show-rate"></span> <span class="output-currency"></span> to 1 <span class="base-currency"></span>.</p>
       <label for="amount-input">How much <span class="base-currency"></span> would you like to convert?</label>
-      <input id="amount-input" type="number" step= 0.01 min="0" max="999999999999" value="0"><br>
+      <input id="amount-input" type="number" step= 0.01 min="0" value="0"><br>
       <div id="show-amount"></div>
       <div class="output-form">
         <label for="amount-output">This exchanged amount of <span class="output-currency"></span> is:</label>
-        <input id="amount-output" type="number" step= 0.01 min="0" max="999999999999" value="0"><br>
+        <input id="amount-output" type="number" step= 0.01 min="0" value="0"><br>
+        <button id="submit" class="btn btn-success">Convert!</button>
       </div>
     </div>
     <button id="reset" class="btn btn-light">Reset the page</button>

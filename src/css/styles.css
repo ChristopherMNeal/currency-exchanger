@@ -18,7 +18,15 @@ select {
   display: none;
 }
 
+.display-common {
+  display:none;
+}
+
 .show-errors {
   font-size: 1.5em;
   font-style: italic;
+}
+
+.all {
+  display: none;
 }

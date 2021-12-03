@@ -59,6 +59,24 @@ function currencyChecker(commonCurrencies, allCurrencies) {
   }
 }
 
+$(".display-all").click(function () {
+  $("#common-base-currencies").val("");
+  $("#common-output-currencies").val("");
+  $(".all").show();
+  $(".common").hide();
+  $(".display-all").hide();
+  $(".display-common").show();
+});
+
+$(".display-common").click(function () {
+  $("#all-base-currencies").val("");
+  $("#all-output-currencies").val("");
+  $(".all").hide();
+  $(".common").show();
+  $(".display-common").hide();
+  $(".display-all").show();
+});
+
 $("#base-currency-submit").click(function() {
   const commonCurrencies = $("#common-base-currencies").val();
   const allCurrencies = $("#all-base-currencies").val();
@@ -97,14 +115,25 @@ $("#convert").click(function() {
 });
 
 $("#amount-input").change(function() {
+  $(".show-errors").text("");
   let amount = $("#amount-input").val();
+  console.log(amount);
+  if (!amount) {
+    $(".show-errors").text("Please enter an amount.");
+    return false;
+  }
   const rate = sessionStorage.getItem("outputRate");
   const answer = makeCalculation(amount, rate, false);
   $("#amount-output").val(answer);
 });
 
 $("#amount-output").change(function() {
+  $(".show-errors").text("");
   let amount = $("#amount-output").val();
+  if (!amount) {
+    $(".show-errors").text("Please enter an amount.");
+    return false;
+  }
   const rate = sessionStorage.getItem("outputRate");
   const answer = makeCalculation(amount, rate, true);
   $("#amount-input").val(answer);
