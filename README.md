@@ -38,8 +38,6 @@ _None at this time_
 
 ## Future Updates
 
-* _Refactor to generally make code more DRY._
-* _Make error code work better and be more informative._
 * _List all available currencies in one menu (instead of two), with most popular at the top._
 * _Add CSS styling to improve the page layout and aesthetics._
 
