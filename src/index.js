@@ -7,15 +7,13 @@ import CodesService from './js/codes-service';
 import makeCalculation from './js/calculate-exhange.js';
 import menuLoop from './js/menu-logic.js';
 
-
-// Error handling should be here instead of in exchange rate service
-// using `if (response instanceof Error)`
-// https://www.learnhowtoprogram.com/intermediate-javascript/asynchrony-and-apis/further-exploration-chaining-promises#:~:text=then()%20with%20it.-,Error%20Handling,-Next%2C%20we%27ve%20added
 function getRates(response) {
   if(response["result"] === "success") {
     for (const element in response.conversion_rates){ 
       sessionStorage.setItem(element, response.conversion_rates[element]);
     }
+  } else if (response === '404') {
+    $(".show-errors").html(`An error occured: ${response}.<br>The currency code you have entered is not supported.<br>Please reset the page and try again.`);
   } else { 
     $(".show-errors").text(`An error occured: ${response}`);
   }
